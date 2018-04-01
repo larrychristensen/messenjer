@@ -22,9 +22,7 @@
    ::http/resource-path "/public"
    ;; the default content-security-policy header is too restrictive to allow
    ;; dynamically loaded JS
-   ::http/secure-headers {:content-security-policy-settings {:object-src "none"}}
-   ;; add in our Web socket configuration
-   ::http/container-options {:context-configurator #(ws/add-ws-endpoints % routes/ws-paths)}})
+   ::http/secure-headers {:content-security-policy-settings {:object-src "none"}}})
 
 ;; this is where we pull all our components together
 (defn system [env]

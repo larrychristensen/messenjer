@@ -9,7 +9,11 @@
 (reg-sub
  :users
  (fn [db _]
-   (get db :users [])))
+   (map
+    (fn [i]
+      {:id i
+       :name (str "User " i)})
+    (range 1 6))))
 
 (reg-sub
  :users-map
@@ -23,12 +27,12 @@
 (reg-sub
  :user-id
  (fn [db _]
-   (get db :user-id)))
+   0))
 
 (reg-sub
  :username
  (fn [db _]
-   (get db :username)))
+   "Me"))
 
 (reg-sub
  :username-for-id

@@ -7,7 +7,5 @@
 
 (enable-console-print!)
 
-(dispatch-sync [:initialize-db])
-
 (reagent/render-component [mv/messajes-page]
                           (. js/document (getElementById "app")))
