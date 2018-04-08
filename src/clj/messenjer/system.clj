@@ -1,5 +1,6 @@
 (ns messenjer.system
-  (:require [com.stuartsierra.component :as component]       
+  (:require [com.stuartsierra.component :as component]
+            [reloaded.repl :refer [init start stop go reset]]
             [io.pedestal.http :as http]
             [io.pedestal.http.jetty.websockets :as ws]
             [messenjer.pedestal :as pedestal]
@@ -48,4 +49,4 @@
     (pedestal/new-pedestal)
     [:service-map])))
 
-(reloaded.repl/set-init! #(system :prod))
+(reloaded.repl/set-init! #(system :dev))

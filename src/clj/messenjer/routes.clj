@@ -1,6 +1,7 @@
 (ns messenjer.routes
   (:require [io.pedestal.http.jetty.websockets :as ws]
             [io.pedestal.http.route.definition :refer [defroutes]]
+            [clojure.java.io :as io]
             [clojure.core.async :as async]))
 
 ;; get the index page. Really we should move the code in
