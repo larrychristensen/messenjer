@@ -10,6 +10,7 @@
   [e]
   (let [parsed (read-string (.-data e))
         {:keys [type] :as event} parsed]
+    (prn "EVENT" event)
     (case type
       ;; event sent when the connection is initialized
       :connect (dispatch [:set-connection event])

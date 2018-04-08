@@ -12,13 +12,13 @@
   (start [this]
     (if service
       this
-      (cond-> service-map
+      (cond-> (:config service-map)
         true http/create-server
         (not (test? service-map)) http/start
         true ((partial assoc this :service)))))
 
   (stop [this]
-    (when (and service (not (test? service-map)))
+    (when (and service (not (test? (:config service-map))))
       (http/stop service))
     (assoc this :service nil)))
 

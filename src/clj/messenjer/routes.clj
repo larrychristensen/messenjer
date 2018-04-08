@@ -2,36 +2,16 @@
   (:require [io.pedestal.http.jetty.websockets :as ws]
             [io.pedestal.http.route.definition :refer [defroutes]]
             [clojure.java.io :as io]
-            [clojure.core.async :as async]))
-
-;; create pub sub channels for our events, if we were going to keep using
-;; channels for our streaming architecture we would want to create
-;; a component to handle all of this.
-(def pub-chan (async/chan))
-(def event-pub (async/pub pub-chan :type))
-
-(def message-chan (async/chan))
-(def message-sub (async/sub event-pub :message message-chan))
-
-;; keep track of our clients
-(def ws-clients (atom {}))
-
-(async/go-loop []
-  (let [message (async/<! message-chan)
-        clients @ws-clients
-        send-chan (-> (:to message)
-                      clients
-                      :channel)]
-    (async/>! send-chan (str message))
-    (recur)))
+            [clojure.core.async :as async]
+            [messenjer.kafka :as kafka]))
 
 (defn send-message-to-all!
-  [message]
+  [message ws-clients]
   (doseq [[id {:keys [session channel]}] @ws-clients]
     (async/put! channel message)))
 
 (defn new-ws-client!
-  [ws-session send-ch]
+  [ws-clients ws-session send-ch]
   ;; set our timeout to 1 hour, really we should do more sophisticated
   ;; connection handling
   (.setIdleTimeout ws-session (* 1000 60 60))
@@ -55,7 +35,8 @@
     ;; notify all other clients that a new user has joined
     (send-message-to-all! (str {:type :user
                                 :user {:id id
-                                       :name name}}))
+                                       :name name}})
+                          ws-clients)
     ;; store our session info for the new user
     (swap! ws-clients
            assoc
@@ -67,11 +48,14 @@
 ;; our Web socket configuration, the connection URL will look like
 ;; ws://<host>/ws. We should be handling :on-close and :on-error
 ;; for more sophisticated connection handling.
-(def ws-paths
-  {"/ws" {:on-connect (ws/start-ws-connection new-ws-client!)
+(defn ws-paths [web-service-clients producer]
+  {"/ws" {:on-connect (ws/start-ws-connection (partial new-ws-client! web-service-clients))
           :on-text (fn [msg]
-                     (let [event (read-string msg)]
-                       (async/>!! pub-chan event)))}})
+                     (let [event (clojure.edn/read-string msg)]
+                       (kafka/send-message producer
+                                           "message"
+                                           (:to event)
+                                           event)))}})
 
 ;; get the index page. Really we should move the code in
 ;; src/cljs/messenjer/views/messaje.cljs into src/cljc and

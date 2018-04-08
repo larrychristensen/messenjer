@@ -21,7 +21,8 @@
                  [reloaded.repl "0.2.3"]
                  [com.stuartsierra/component "0.3.2"]
                  [environ "1.1.0"]
-                 [cljs-http "0.1.44"]]
+                 [cljs-http "0.1.44"]
+                 [org.apache.kafka/kafka-clients "1.1.0"]]
 
   :plugins [[lein-figwheel "0.5.15"]
             [lein-garden "0.3.0"]
