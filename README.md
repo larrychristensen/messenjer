@@ -1,10 +1,6 @@
 # messenjer
 
-FIXME: Write a one-line description of your library/project.
-
-## Overview
-
-FIXME: Write a paragraph about the library/project and highlight its goals.
+A simple messenging app to demonstrate building an app with Clojure, ClojureScript, Kafka, Re-Frame, Pedestal, and Component.
 
 ## Setup
 
@@ -21,19 +17,22 @@ get a Browser Connected REPL. An easy way to try it is:
 
 and you should see an alert in the browser window.
 
-To clean all compiled files:
+To start the back-end server you will need to open a REPL either from the command line:
 
-    lein clean
+    lein repl
+    
+Or if you are using Emacs with [Cider](https://cider.readthedocs.io/en/latest/) you can run the command to start the Cider REPL:
 
-To create a production build run:
+    C-c M-j
+    
+I haven't used [Cursive](https://cursive-ide.com/), but I hear it is really nice and I'm sure there's an easy way to start a REPL within it.
+    
+Once you have a REPL you can 
 
-    lein do clean, cljsbuild once min
-
-And open your browser in `resources/public/index.html`. You will not
-get live reloading, nor a REPL. 
+    (def system-map (com.stuartsierra.component/start (messenjer.system/system :dev)))
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright © 2018 Larry Christensen
 
 Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
