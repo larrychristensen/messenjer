@@ -27,9 +27,15 @@ Or if you are using Emacs with [Cider](https://cider.readthedocs.io/en/latest/) 
     
 I haven't used [Cursive](https://cursive-ide.com/), but I hear it is really nice and I'm sure there's an easy way to start a REPL within it.
     
-Once you have a REPL you can 
+Once you have a REPL you can run this from within it:
 
-    (def system-map (com.stuartsierra.component/start (messenjer.system/system :dev)))
+    messenjer.server=> (def system-map (com.stuartsierra.component/start (messenjer.system/system :dev)))
+    
+To stop you will need to do this:
+
+    messenjer.server=> (com.stuartsierra.component/stop system-map)
+    
+Within Emacs you should be able to save your file (C-x C-s) and reload it into the REPL (C-c C-w) to get your server-side changes to take effect. Your client-side changes will take effect immediately when you change a CLJS or CLJC file.
 
 ## License
 
