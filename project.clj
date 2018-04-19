@@ -27,7 +27,7 @@
 
   :cljsbuild {:builds
               [{:id "dev"
-                :source-paths ["src/cljs" "src/cljc"]
+                :source-paths ["src/cljs"]
                 :figwheel {:open-urls ["http://localhost:3449/index.html"]}
 
                 :compiler {:main messenjer.core
