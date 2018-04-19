@@ -27,7 +27,7 @@
             [lein-garden "0.3.0"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
 
-  :source-paths ["src/clj" "src/cljc" "src/cljs"]
+  :source-paths ["src/clj" "src/cljs"]
 
   :garden {:builds [{:source-paths ["src/clj"]
                      :stylesheet messenjer.styles.core/app
@@ -36,7 +36,7 @@
 
   :cljsbuild {:builds
               [{:id "dev"
-                :source-paths ["src/cljs" "src/cljc"]
+                :source-paths ["src/cljs"]
                 :figwheel {:open-urls ["http://localhost:3449/index.html"]}
 
                 :compiler {:main messenjer.core
